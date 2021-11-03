@@ -1,14 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-public enum NodeType
-{
-    Empty,
-    Block,
-    Start,
-    Target
-}
-
 public class Node : MonoBehaviour, IHeapItem<Node>
 {
     public Color EmptyColor => _emptyColor;
@@ -108,6 +100,18 @@ public class Node : MonoBehaviour, IHeapItem<Node>
         }
     }
 
+    public int CompareTo(Node other)
+    {
+        var compare = FCost.CompareTo(other.FCost);
+
+        if (compare == 0)
+        {
+            compare = HCost.CompareTo(other.HCost);
+        }
+
+        return -compare;
+    }
+
     private IEnumerator BlendColor(Color color)
     {
         float colorDelta = 0f;
@@ -122,17 +126,5 @@ public class Node : MonoBehaviour, IHeapItem<Node>
         }
 
         _previosColor = color;
-    }
-
-    public int CompareTo(Node other)
-    {
-        var compare = FCost.CompareTo(other.FCost);
-
-        if (compare == 0)
-        {
-            compare = HCost.CompareTo(other.HCost);
-        }
-
-        return -compare;
-    }
+    }      
 }

@@ -5,10 +5,8 @@ public abstract class PathFinder : MonoBehaviour
 {
     [SerializeField] protected NodeGrid _grid;
 
-    private const int _distancePerColor = 15;
+    private const int _distancePerColor = 20;
     private readonly Color _pathColor = new Color(1f, 0.639f, 0.106f);
-    //private readonly Color _pathColor = new Color(0.673f, 0.560f, 0.722f);
-    //private readonly Color _pathColor = new Color(0.780f, 0.831f, 0.882f);
     private readonly Color[] _blendColors = 
     { 
         new Color(1f, 0.255f, 0.490f),

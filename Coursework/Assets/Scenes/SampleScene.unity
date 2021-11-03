@@ -714,7 +714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &479193522
@@ -1052,7 +1052,6 @@ GameObject:
   - component: {fileID: 843825676}
   - component: {fileID: 843825675}
   - component: {fileID: 843825679}
-  - component: {fileID: 843825680}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1073,7 +1072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 3
+  m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1153,35 +1152,7 @@ CanvasGroup:
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 1
---- !u!114 &843825680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843825674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5437815239ed844ea38bf9696a7b44e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnPathFinderChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 127659672}
-        m_TargetAssemblyTypeName: Program, Assembly-CSharp
-        m_MethodName: ChangePathFinder
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _pathFinders: {fileID: 1192927969}
+  m_IgnoreParentGroups: 0
 --- !u!1 &864163030
 GameObject:
   m_ObjectHideFlags: 0
@@ -2217,8 +2188,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2108968798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -400, y: -224.9017, z: 0}
-  m_LocalScale: {x: 1.0484928, y: 1.0484928, z: 1.0484928}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 843825678}
   m_RootOrder: 0

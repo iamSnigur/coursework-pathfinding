@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
-    private const int _yOffset = 2;
-
     public int MaxSize => _size.x * _size.y;
     public Node StartNode { get; private set; }
     public Node TargetNode { get; private set; }
@@ -15,7 +13,6 @@ public class NodeGrid : MonoBehaviour
     [SerializeField] private Color _gridColor;
 
     private Vector2Int _size;
-    private float _halfNodeScale => _nodePrefab.transform.localScale.x / 2f;
 
     public void Initialize(Vector2Int size)
     {
@@ -35,7 +32,7 @@ public class NodeGrid : MonoBehaviour
         {
             int x = (int)(hit.point.x + _size.x * 0.5f);
             int y = (int)(hit.point.y + _size.y * 0.5f);
-           
+
             if(x >= 0 && x < _size.x && y >= 0 && y < _size.y)
             {
                 return GetNode(x, y);

@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Program : MonoBehaviour
 {
@@ -10,9 +12,30 @@ public class Program : MonoBehaviour
     [SerializeField] private Vector2Int _boardSize;
     [SerializeField] private PathFinder[] _pathFinders;
 
-    private Vector2 _touchPosition => _camera.ScreenToWorldPoint(Input.mousePosition);
-    private Node _node => _grid.GetNode(Physics2D.Raycast(_touchPosition, Vector2.zero, Mathf.Infinity, _layerMask));
+    private Ray _touchRay => _camera.ScreenPointToRay(Input.mousePosition);
+    private Node _node => _grid.GetNode(Physics2D.GetRayIntersection(_touchRay, Mathf.Infinity, _layerMask));
     private int _pathFinderIndex;
+
+    public void ClearGrid()
+    {
+        if (!s_IsPathFinding)
+        {
+            _grid.Clear(true);
+        }
+    }
+
+    public void StartPathFinding()
+    {
+        if (!s_IsPathFinding)
+        {
+            _pathFinders[_pathFinderIndex].FindPath();
+        }
+    }
+
+    public void ChangePathFinder(int index)
+    {
+        _pathFinderIndex = index;
+    }
 
     private void Start()
     {
@@ -31,7 +54,7 @@ public class Program : MonoBehaviour
 
     private void HandleLeftClick()
     {
-        if (Input.GetMouseButton(0) && _grid.IsChangableNode(_node))
+        if (Input.GetMouseButton(0) && _grid.IsChangableNode(_node) && !IsPointerOverUI())
         {
             _node?.SetType(NodeType.Block, false);
         }
@@ -39,7 +62,7 @@ public class Program : MonoBehaviour
 
     private void HandleRightClick()
     {
-        if (Input.GetMouseButton(1) && _grid.IsChangableNode(_node))
+        if (Input.GetMouseButton(1) && _grid.IsChangableNode(_node) && !IsPointerOverUI())
         {
             _node?.SetType(NodeType.Empty, true);
         }
@@ -47,7 +70,7 @@ public class Program : MonoBehaviour
 
     private void HandleMiddleClick()
     {
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetMouseButtonDown(2) && !IsPointerOverUI())
         {
             if (Input.GetKey(KeyCode.LeftControl))
             {
@@ -58,26 +81,15 @@ public class Program : MonoBehaviour
                 _grid.SetTargetNode(_node);
             }            
         }
-    }
+    }  
 
-    public void ClearGrid()
+    private bool IsPointerOverUI()
     {
-        if (!s_IsPathFinding)
-        {
-            _grid.Clear(true);
-        }        
-    }
+        var pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, results);
 
-    public void StartPathFinding()
-    {
-        if (!s_IsPathFinding)
-        {
-            _pathFinders[_pathFinderIndex].FindPath();
-        }
-    }
-
-    public void ChangePathFinder(int index)
-    {
-        _pathFinderIndex = index;
+        return results.Count > 0;
     }
 }
