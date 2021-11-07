@@ -17,9 +17,9 @@ public class DFS : PathFinder
             return;
         }
 
-        _grid.Clear(false);
+        _grid.Clear(false, false);
 
-        Program.s_IsPathFinding = true;
+        Program.s_IsInteractable = false;
 
         DFSAlgorithm(_grid.StartNode);
 
@@ -27,7 +27,7 @@ public class DFS : PathFinder
 
         await RetracePath();
 
-        Program.s_IsPathFinding = false;
+        Program.s_IsInteractable = true;
     }
 
     private bool DFSAlgorithm(Node currentNode)

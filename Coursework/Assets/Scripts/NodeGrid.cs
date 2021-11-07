@@ -3,37 +3,36 @@ using UnityEngine;
 
 public class NodeGrid : MonoBehaviour
 {
-    public int MaxSize => _size.x * _size.y;
+    public int MaxSize => Size.x * Size.y;
     public Node StartNode { get; private set; }
     public Node TargetNode { get; private set; }
     public Node[] Grid { get; private set; }
+    public Vector2Int Size { get; private set; }
     public bool IsChangableNode(Node node) => node != StartNode && node != TargetNode;
 
     [SerializeField] private Node _nodePrefab;
     [SerializeField] private Color _gridColor;
 
-    private Vector2Int _size;
-
     public void Initialize(Vector2Int size)
     {
-        _size = size;
-        Grid = new Node[_size.x * _size.y];
+        Size = size;
+        Grid = new Node[Size.x * Size.y];
         GenereteGrid();
     }   
 
     public Node GetNode(int x, int y)
     {   
-        return Grid[y * _size.x + x];
+        return Grid[y * Size.x + x];
     }
 
     public Node GetNode(RaycastHit2D hit)
     {
         if (hit.collider != null)
         {
-            int x = (int)(hit.point.x + _size.x * 0.5f);
-            int y = (int)(hit.point.y + _size.y * 0.5f);
+            int x = (int)(hit.point.x + Size.x * 0.5f);
+            int y = (int)(hit.point.y + Size.y * 0.5f);
 
-            if(x >= 0 && x < _size.x && y >= 0 && y < _size.y)
+            if(x >= 0 && x < Size.x && y >= 0 && y < Size.y)
             {
                 return GetNode(x, y);
             }
@@ -46,11 +45,11 @@ public class NodeGrid : MonoBehaviour
     {
         var neighbours = new List<Node>();
 
-        for(int x = -1; x <= 1; x++)
+        for (int x = -1; x <= 1; x++)
         {
-            for(int y = -1; y <= 1; y++)
+            for (int y = -1; y <= 1; y++)
             {
-                if((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
+                if ((x == 0 && y == 0) || (Mathf.Abs(x) == 1 && Mathf.Abs(y) == 1))
                 {
                     continue;
                 }
@@ -58,7 +57,7 @@ public class NodeGrid : MonoBehaviour
                 int tmpX = node.X + x;
                 int tmpY = node.Y + y;
 
-                if (tmpX >= 0 && tmpX < _size.x && tmpY >= 0 && tmpY < _size.y)
+                if (tmpX >= 0 && tmpX < Size.x && tmpY >= 0 && tmpY < Size.y)
                 {
                     neighbours.Add(GetNode(tmpX, tmpY));
                 }
@@ -92,8 +91,14 @@ public class NodeGrid : MonoBehaviour
         target?.SetType(NodeType.Target, false);
     }
 
-    public void Clear(bool clearBlocks)
+    public void Clear(bool clearBlocks, bool clearStartTarget)
     {
+        if(clearStartTarget)
+        {
+            SetStartNode(null);
+            SetTargetNode(null);
+        }        
+
         foreach (Node n in Grid)
         {
             n.Parent = null;
@@ -108,11 +113,11 @@ public class NodeGrid : MonoBehaviour
 
     private void GenereteGrid()
     {
-        var offset = new Vector2((_size.x - 1) * 0.5f, (_size.y - 1) * 0.5f);
+        var offset = new Vector2((Size.x - 1) * 0.5f, (Size.y - 1) * 0.5f);
 
-        for (int i = 0, y = 0; y < _size.y; y++)
+        for (int i = 0, y = 0; y < Size.y; y++)
         {
-            for (int x = 0; x < _size.x; x++, i++)
+            for (int x = 0; x < Size.x; x++, i++)
             {
                 Node node = Grid[i] = Instantiate(_nodePrefab);
 

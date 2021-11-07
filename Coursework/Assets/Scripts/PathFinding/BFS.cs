@@ -10,17 +10,17 @@ public class BFS : PathFinder
             return;
         }
 
-        _grid.Clear(false);
+        _grid.Clear(false, false);
 
         StopAllCoroutines();
 
-        Program.s_IsPathFinding = true;
+        Program.s_IsInteractable = false;
 
         await BFSAlgorithm();
 
         await RetracePath();
 
-        Program.s_IsPathFinding = false;
+        Program.s_IsInteractable = true;
     }
 
     private async Task BFSAlgorithm()

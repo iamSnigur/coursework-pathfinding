@@ -4,13 +4,14 @@ using UnityEngine.EventSystems;
 
 public class Program : MonoBehaviour
 {
-    public static bool s_IsPathFinding;
+    public static bool s_IsInteractable = true;
 
     [SerializeField] private Camera _camera;
     [SerializeField] private NodeGrid _grid;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Vector2Int _boardSize;
     [SerializeField] private PathFinder[] _pathFinders;
+    [SerializeField] private MazeGenerator _mazeGenerator;
 
     private Ray _touchRay => _camera.ScreenPointToRay(Input.mousePosition);
     private Node _node => _grid.GetNode(Physics2D.GetRayIntersection(_touchRay, Mathf.Infinity, _layerMask));
@@ -18,17 +19,25 @@ public class Program : MonoBehaviour
 
     public void ClearGrid()
     {
-        if (!s_IsPathFinding)
+        if (s_IsInteractable)
         {
-            _grid.Clear(true);
+            _grid.Clear(true, true);
         }
     }
 
     public void StartPathFinding()
     {
-        if (!s_IsPathFinding)
+        if (s_IsInteractable)
         {
             _pathFinders[_pathFinderIndex].FindPath();
+        }
+    }
+
+    public void StartMazeGeneration()
+    {
+        if(s_IsInteractable)
+        {
+            _mazeGenerator.StartMazeGeneration();
         }
     }
 
@@ -44,7 +53,7 @@ public class Program : MonoBehaviour
 
     private void Update()
     {  
-        if(!s_IsPathFinding)
+        if(s_IsInteractable)
         {   
             HandleLeftClick();
             HandleMiddleClick();

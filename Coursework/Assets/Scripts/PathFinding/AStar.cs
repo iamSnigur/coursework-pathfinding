@@ -14,15 +14,15 @@ public class AStar : PathFinder
             return;
         }
 
-        _grid.Clear(false);
+        _grid.Clear(false, false);
 
-        Program.s_IsPathFinding = true;
+        Program.s_IsInteractable = false;
 
         await AStarAlgorithm();
 
         await RetracePath();
 
-        Program.s_IsPathFinding = false;
+        Program.s_IsInteractable = true;
     }
 
     private async Task AStarAlgorithm()
